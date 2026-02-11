@@ -1,0 +1,51 @@
+############################
+# Java / Maven
+############################
+target/
+*.class
+*.log
+
+############################
+# IntelliJ IDEA
+############################
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+############################
+# VS Code (por si acaso)
+############################
+.vscode/
+
+############################
+# OS
+############################
+.DS_Store
+Thumbs.db
+
+############################
+# Spring Boot
+############################
+logs/
+spring.log
+
+############################
+# Environment variables / Secrets
+############################
+.env
+.env.*
+application-local.yml
+application-prod.yml
+
+############################
+# Maven Wrapper
+############################
+.mvn/wrapper/maven-wrapper.jar
+
+############################
+# Node (por si luego agregas frontend)
+############################
+node_modules/
+dist/
