@@ -21,7 +21,7 @@ public class DataBaseTestController {
 
         long totalRows = userBusinessRepository.count();
 
-        return "User Business Tables has:" + totalRows + " rows";
+        return "user_business table has: " + totalRows + " rows";
 
     }
 
