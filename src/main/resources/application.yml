@@ -1,8 +1,6 @@
 spring:
   application:
     name: loyalt
-  profiles:
-    active: local
   devtools:
     restart:
       enabled: true
