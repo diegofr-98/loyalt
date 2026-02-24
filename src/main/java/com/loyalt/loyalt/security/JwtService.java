@@ -23,10 +23,11 @@ public class JwtService {
 
     public String generateToken(AppUser appUser){
         return Jwts.builder()
-                .setSubject((appUser.getEmail()))
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(appUser.getUserName())
+                .claim("role", appUser.getRole().name())
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .signWith(getSignKey(),SignatureAlgorithm.HS256)
                 .compact();
 
     }
