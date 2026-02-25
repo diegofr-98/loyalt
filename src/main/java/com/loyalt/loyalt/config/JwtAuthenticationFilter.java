@@ -1,5 +1,6 @@
 package com.loyalt.loyalt.config;
 
+import com.loyalt.loyalt.exception.InvalidTokenException;
 import com.loyalt.loyalt.security.AppUserDetailsService;
 import com.loyalt.loyalt.security.JwtService;
 import jakarta.servlet.FilterChain;
@@ -36,25 +37,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String jwt = authHeader.substring(7);
-        String userName = jwtService.extractUserName(jwt);
+        try {
+            String jwt = authHeader.substring(7);
+            String userName = jwtService.extractUserName(jwt);
 
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = appUserDetailsService.loadUserByUsername(userName);
+                UserDetails userDetails = appUserDetailsService.loadUserByUsername(userName);
 
-                boolean isValid = jwtService.isTokenValid(jwt, userDetails);
-                logger.info("Is token valid? " + isValid);
+                /*boolean isValid = jwtService.isTokenValid(jwt, userDetails);
+                logger.info("Is token valid? " + isValid);*/
 
-                if (isValid) {
+                if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
-                );
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+
             }
+        } catch(Exception e){
+            throw new InvalidTokenException("Invalid JWT");
 
         }
         filterChain.doFilter(request, response);

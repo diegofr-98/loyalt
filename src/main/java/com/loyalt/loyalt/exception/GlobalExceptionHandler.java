@@ -27,7 +27,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidEmailOrPasswordException.class)
     public ResponseEntity<ErrorResponse> handleAuthException(InvalidEmailOrPasswordException ex, HttpServletRequest request) {
-        System.out.println("Entrando al handler");
+
+        ErrorResponse error = new ErrorResponse(
+                Instant.now().toString(),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleAuthException(InvalidTokenException ex, HttpServletRequest request) {
+
         ErrorResponse error = new ErrorResponse(
                 Instant.now().toString(),
                 HttpStatus.UNAUTHORIZED.value(),
