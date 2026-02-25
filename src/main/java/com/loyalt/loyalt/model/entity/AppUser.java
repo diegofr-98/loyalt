@@ -20,7 +20,6 @@ public class AppUser  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String userName;
     private String email;
     @JsonIgnore
     private String password;
@@ -37,12 +36,9 @@ public class AppUser  implements UserDetails {
     }
 
     public String getUserName() {
-        return userName;
+        return this.email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getEmail() {
         return email;
@@ -77,7 +73,7 @@ public class AppUser  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return this.email;
     }
 
     @Override

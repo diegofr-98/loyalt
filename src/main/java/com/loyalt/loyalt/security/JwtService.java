@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final String SECRET_KEY = "VGhpcy1pcy1hLXNlY3JldC1rZXktZm9yLXRlc3RpbmcxMjM0NTY=";
+    @Value("${jwt.secret}")
+    private  String SECRET_KEY;
 
     private Key getSignKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
@@ -23,7 +25,7 @@ public class JwtService {
 
     public String generateToken(AppUser appUser){
         return Jwts.builder()
-                .setSubject(appUser.getUserName())
+                .setSubject(appUser.getEmail())
                 .claim("role", appUser.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
@@ -34,17 +36,18 @@ public class JwtService {
 
 
     private Claims extractAllClaims(String token){
+
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
     public String extractUserName(String token){
         return extractAllClaims(token).getSubject();
     }
 
-    private boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token){
         return extractAllClaims(token).getExpiration().before(new Date());
 
     }
