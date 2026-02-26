@@ -1,34 +1,38 @@
 package com.loyalt.loyalt.config;
 
-import com.loyalt.loyalt.exception.InvalidTokenException;
-import com.loyalt.loyalt.security.AppUserDetailsService;
-import com.loyalt.loyalt.security.JwtService;
+
+import com.loyalt.loyalt.security.SupabaseAuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @Component
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
-    private final AppUserDetailsService appUserDetailsService;
+    private final SupabaseAuthService supabaseAuthService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, AppUserDetailsService appUserDetailsService) {
-        this.jwtService = jwtService;
-        this.appUserDetailsService = appUserDetailsService;
+
+    public JwtAuthenticationFilter(SupabaseAuthService supabaseAuthService) {
+        this.supabaseAuthService = supabaseAuthService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
 
@@ -37,33 +41,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        String token = authHeader.substring(7);
+
         try {
-            String jwt = authHeader.substring(7);
-            String userName = jwtService.extractUserName(jwt);
+            Map<?, ?> userResponse = supabaseAuthService.validateToken(token);
+            if (userResponse != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                String userId = (String) userResponse.get("id");
+                String email = (String) userResponse.get("email");
 
-            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                Map<?, ?> userMetadata = (Map<?, ?>) userResponse.get("user_metadata");
+                String role = "USER";
 
-                UserDetails userDetails = appUserDetailsService.loadUserByUsername(userName);
-
-                /*boolean isValid = jwtService.isTokenValid(jwt, userDetails);
-                logger.info("Is token valid? " + isValid);*/
-
-                if (jwtService.isTokenValid(jwt, userDetails)) {
-
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities()
-                    );
-
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (userMetadata != null && userMetadata.get("role") != null) {
+                    role = userMetadata.get("role").toString();
                 }
 
-            }
-        } catch(Exception e){
-            throw new InvalidTokenException("Invalid JWT");
+                Map<String, String> principal = Map.of("userId", userId, "email", email);
 
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        principal, null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
+
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+            }
+
+
+        } catch (Exception ex) {
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
+
         filterChain.doFilter(request, response);
+
     }
 
 }

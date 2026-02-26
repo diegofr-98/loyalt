@@ -19,26 +19,30 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
 
-    private final AuthenticationManager authenticationManager;
+    //private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final AppUserRepository appUserRepository;
-    private final PasswordEncoder passwordEncoder;
+    //private final AppUserRepository appUserRepository;
+    //private final PasswordEncoder passwordEncoder;
 
-    public AuthService(AuthenticationManager authenticationManager, JwtService jwtService, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
+    //public AuthService(AuthenticationManager authenticationManager, JwtService jwtService, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(JwtService jwtService) {
+        //this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
-        this.appUserRepository = appUserRepository;
-        this.passwordEncoder = passwordEncoder;
+        //this.appUserRepository = appUserRepository;
+        //this.passwordEncoder = passwordEncoder;
     }
 
-    public AuthResponse authenticate(AuthRequest request) {
+   /* public AuthResponse authenticate(AuthRequest request) {
 
         try {
             authenticationManager.authenticate(
@@ -70,6 +74,9 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole(Role.BUSINESS);
         appUserRepository.save(user);
+    }*/
 
-    }
+
+
+
 }
