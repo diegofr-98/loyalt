@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final SupabaseAuthService supabaseAuthService;

@@ -32,7 +32,9 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .formLogin(form -> form.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
@@ -40,7 +42,7 @@ public class SecurityConfig {
                                 // Public endpoints (no authentication required)
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 //Business endpoints
-                                .requestMatchers("/api/v1/google-wallet/**", "/api/v1/test/**").hasRole(Role.BUSINESS.name())
+                                .requestMatchers("/api/v1/google-wallet/**", "/api/v1/test/**","/api/v1/business").hasRole(Role.BUSINESS.name())
                                 // All other requests require authentication
                                 .anyRequest().authenticated())
                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

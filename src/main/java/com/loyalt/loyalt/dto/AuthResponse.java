@@ -1,10 +1,5 @@
 package com.loyalt.loyalt.dto;
 
-import com.loyalt.loyalt.model.entity.AppUser;
-import org.springframework.security.core.userdetails.User;
-
-import java.util.Date;
-
 public class AuthResponse {
     private String token;
     private String role;

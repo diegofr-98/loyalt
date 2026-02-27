@@ -19,10 +19,43 @@ public class UserBusiness {
     public Date joinedAt;
     public String status;
 
+    public UUID getUuid() {
+        return uuid;
+    }
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
+    public UUID getUserId() {
+        return userId;
+    }
 
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 
+    public UUID getBusinessId() {
+        return businessId;
+    }
 
+    public void setBusinessId(UUID businessId) {
+        this.businessId = businessId;
+    }
 
+    public Date getJoinedAt() {
+        return joinedAt;
+    }
+
+    public void setJoinedAt(Date joinedAt) {
+        this.joinedAt = joinedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
