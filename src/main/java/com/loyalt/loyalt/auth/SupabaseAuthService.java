@@ -1,4 +1,4 @@
-package com.loyalt.loyalt.security;
+package com.loyalt.loyalt.auth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

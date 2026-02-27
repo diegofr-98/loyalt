@@ -1,7 +1,6 @@
-package com.loyalt.loyalt.config;
+package com.loyalt.loyalt.auth;
 
 
-import com.loyalt.loyalt.security.SupabaseAuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
