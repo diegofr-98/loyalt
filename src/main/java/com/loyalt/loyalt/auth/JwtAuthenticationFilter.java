@@ -56,8 +56,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 Map<String, String> principal = Map.of("userId", userId, "email", email);
 
+
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        principal, null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
+                        principal.get("userId"), null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 

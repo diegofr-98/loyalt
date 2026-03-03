@@ -20,6 +20,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      jdbc:
+        time_zone: UTC
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
@@ -28,4 +30,8 @@ server:
 supabase:
   url: ${SUPABASE_URL}
   publishable-key: ${SUPABASE_PUBLISHABLE_KEY}
+
+google:
+  wallet:
+    issuer-id: ${GOOGLE_WALLET_ISSUER_ID}
 

@@ -1,8 +1,10 @@
 package com.loyalt.loyalt.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.annotation.processing.Generated;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,12 +13,15 @@ import java.util.UUID;
 public class Business {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private String name;
     private UUID businessTypeId;
-    private Date createdAt;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
     private UUID ownerId;
+    private String googleClassId;
+    private String programName;
 
 
     public UUID getUuid() {
@@ -43,11 +48,11 @@ public class Business {
         this.businessTypeId = businessTypeId;
     }
 
-    public Date getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -59,6 +64,19 @@ public class Business {
         this.ownerId = ownerId;
     }
 
+    public String getGoogleClassId() {
+        return googleClassId;
+    }
 
+    public void setGoogleClassId(String googleClassId) {
+        this.googleClassId = googleClassId;
+    }
 
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void setProgramName(String programName) {
+        this.programName = programName;
+    }
 }

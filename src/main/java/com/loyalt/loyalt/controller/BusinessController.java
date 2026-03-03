@@ -1,12 +1,11 @@
 package com.loyalt.loyalt.controller;
 
+import com.loyalt.loyalt.dto.CreateBusinessRequest;
+import com.loyalt.loyalt.dto.CreateBusinessResponse;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.service.BusinessService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +22,11 @@ public class BusinessController {
     public ResponseEntity<List<Business>> getAllBusiness(){
         List<Business> businesses = this.businessService.getAllBusinesses();
         return ResponseEntity.ok(businesses);
+    }
+
+    @PostMapping()
+    public ResponseEntity<CreateBusinessResponse> create(@RequestBody CreateBusinessRequest request){
+        return ResponseEntity.ok(businessService.createBusiness(request));
+
     }
 }
