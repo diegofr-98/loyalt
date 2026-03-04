@@ -42,7 +42,7 @@ public class SecurityConfig {
                                 // Public endpoints (no authentication required)
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 //Business endpoints
-                                .requestMatchers("/api/v1/google-wallet/**", "/api/v1/test/**","/api/v1/business", "/api/v1/promotions/**")
+                                .requestMatchers("/api/v1/google-wallet/**", "/api/v1/test/**","/api/v1/business", "/api/v1/promotions/**", "/api/v1/rewards/**")
                                 // All other requests require authentication
                                 .permitAll().anyRequest().authenticated())
                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
