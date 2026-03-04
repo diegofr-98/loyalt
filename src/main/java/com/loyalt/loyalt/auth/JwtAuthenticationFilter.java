@@ -44,8 +44,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             Map<?, ?> userResponse = supabaseAuthService.validateToken(token);
             if (userResponse != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                //TODO verify if userResponse.get("id") can be null
                 String userId = (String) userResponse.get("id");
-                String email = (String) userResponse.get("email");
+                /*String email = (String) userResponse.get("email");
 
                 Map<?, ?> userMetadata = (Map<?, ?>) userResponse.get("user_metadata");
                 String role = "USER";
@@ -54,11 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     role = userMetadata.get("role").toString();
                 }
 
-                Map<String, String> principal = Map.of("userId", userId, "email", email);
+                Map<String, String> principal = Map.of("userId", userId, "email", email);*/
 
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        principal.get("userId"), null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
+                        userId, null, List.of());
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
