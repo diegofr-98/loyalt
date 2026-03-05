@@ -13,43 +13,31 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUserExists(UserAlreadyExistsException ex, HttpServletRequest request){
+
+
+    @ExceptionHandler(LoyaltyClassAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleLoyaltyClassExistsException(LoyaltyClassAlreadyExistsException ex, HttpServletRequest request){
         ErrorResponse error = new ErrorResponse(
                 Instant.now().toString(),
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
                 ex.getMessage(),
-                request.getRequestURI()
-                );
-        return  new ResponseEntity<>(error, HttpStatus.CONFLICT);
+                request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
-    @ExceptionHandler(InvalidEmailOrPasswordException.class)
-    public ResponseEntity<ErrorResponse> handleAuthException(InvalidEmailOrPasswordException ex, HttpServletRequest request) {
-
+    @ExceptionHandler(GoogleWalletException.class)
+    public ResponseEntity<ErrorResponse> handleGoogleWalletException(GoogleWalletException ex, HttpServletRequest request){
         ErrorResponse error = new ErrorResponse(
                 Instant.now().toString(),
-                HttpStatus.UNAUTHORIZED.value(),
-                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                HttpStatus.BAD_GATEWAY.value(),
+                HttpStatus.BAD_GATEWAY.getReasonPhrase(),
                 ex.getMessage(),
-                request.getRequestURI()
-        );
+                request.getRequestURI());
 
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(error);
 
-    @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<ErrorResponse> handleAuthException(InvalidTokenException ex, HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
-                Instant.now().toString(),
-                HttpStatus.UNAUTHORIZED.value(),
-                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 }

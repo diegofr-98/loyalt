@@ -7,6 +7,7 @@ import com.loyalt.loyalt.service.BusinessService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,9 @@ public class BusinessController {
     }
 
     @PostMapping()
-    public ResponseEntity<CreateBusinessResponse> create(@RequestBody CreateBusinessRequest request){
-        return ResponseEntity.ok(businessService.createBusiness(request));
+    public ResponseEntity<CreateBusinessResponse> create(@RequestBody CreateBusinessRequest request) throws IOException {
+        CreateBusinessResponse createBusinessResponse = businessService.createBusiness(request);
+        return ResponseEntity.ok(createBusinessResponse);
 
     }
 }
