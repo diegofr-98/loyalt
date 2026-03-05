@@ -22,7 +22,8 @@ public class Business {
     private UUID ownerId;
     private String googleClassId;
     private String programName;
-
+    private String logoUrl;
+    private Boolean isActive;
 
     public UUID getUuid() {
         return uuid;
@@ -78,5 +79,21 @@ public class Business {
 
     public void setProgramName(String programName) {
         this.programName = programName;
+    }
+
+    public String getLogoURL() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

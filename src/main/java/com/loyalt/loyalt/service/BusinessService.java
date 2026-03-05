@@ -19,6 +19,7 @@ public class BusinessService {
     private final GoogleWalletService googleWalletService;
     private String issuerId;
 
+    final String DEFAULT_LOGO = "https://rifsoxpgwhcnyklspgsc.supabase.co/storage/v1/object/public/business-logos/generic-logo.png";
     public BusinessService(BusinessRepository businessRepository, @Value("${google.wallet.issuer-id}") String issuerId, GoogleWalletService googleWalletService
     ){
         this.businessRepository = businessRepository;
@@ -35,10 +36,7 @@ public class BusinessService {
 
     @Transactional
     public CreateBusinessResponse createBusiness(CreateBusinessRequest request) throws IOException {
-        //del request necesito: name, business_type_id
-        //this.businessRepository.save();
 
-        //Parsing businessTypeId from String to UUID
         UUID businessId = UUID.randomUUID();
         String businessName = request.getBusinessName();
         UUID businessTypeId = UUID.fromString(request.getBusinessTypeId());
@@ -46,7 +44,7 @@ public class BusinessService {
         String googleClassId = issuerId + "." + businessId;
         String programName = businessName + " Rewards";
 
-        String googleClassIdFromGoogle = googleWalletService.createLoyaltyClass(googleClassId,businessName, programName);
+        String googleClassIdFromGoogle = googleWalletService.createLoyaltyClass(googleClassId,businessName, programName, DEFAULT_LOGO);
 
 
         Business business = new Business();
@@ -54,8 +52,10 @@ public class BusinessService {
         business.setName(businessName);
         business.setBusinessTypeId(businessTypeId);
         business.setOwnerId(ownerId);
-        business.setProgramName(businessName + "Rewards");
+        business.setProgramName(businessName + " Rewards");
         business.setGoogleClassId(googleClassIdFromGoogle);
+        business.setLogoUrl(DEFAULT_LOGO);
+        business.setActive(true);
 
 
         Business save = businessRepository.save(business);
@@ -64,6 +64,7 @@ public class BusinessService {
 
         response.setCompanyName(save.getName());
         response.setBusinessId(save.getUuid());
+        response.setProgramName(save.getProgramName());
 
         return response;
     }

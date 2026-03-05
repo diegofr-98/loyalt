@@ -8,6 +8,9 @@ import com.google.api.services.walletobjects.model.ImageUri;
 import com.google.api.services.walletobjects.model.LoyaltyClass;
 import com.loyalt.loyalt.exception.GoogleWalletException;
 import com.loyalt.loyalt.exception.LoyaltyClassAlreadyExistsException;
+import com.loyalt.loyalt.service.PromotionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,15 +20,15 @@ import java.io.IOException;
 public class GoogleWalletService {
     private final Walletobjects walletobjects;
     //private String issuerId;
+    private static final Logger logger = LoggerFactory.getLogger(PromotionService.class);
 
     public GoogleWalletService(Walletobjects walletobjects) {
         this.walletobjects = walletobjects;
         //this.issuerId = issuerId;
     }
 
-    public String createLoyaltyClass(String googleClassId, String businessName, String programName) throws IOException {
-        /*TODO: añade el campo de logo a la base de datos, añade logs de que la google class id fue generada correctamente, como generar el qr, revisar que pasa si mi correo no es el dado de alta*/
-        final String DEFAULT_LOGO = "https://rifsoxpgwhcnyklspgsc.supabase.co/storage/v1/object/public/business-logos/test_logo.png";
+    public String createLoyaltyClass(String googleClassId, String businessName, String programName, String logoURL) throws IOException {
+
         try {
 
             try {
@@ -40,19 +43,19 @@ public class GoogleWalletService {
                 }
             }
 
-            //https://rifsoxpgwhcnyklspgsc.supabase.co/storage/v1/object/public/business-logos/test_logo.png
-
             LoyaltyClass loyaltyClass = new LoyaltyClass()
                     .setId(googleClassId)
                     .setIssuerName(businessName)
                     .setProgramName(programName)
                     .setHexBackgroundColor("#7387E7")
                     .setReviewStatus("UNDER_REVIEW")
-                    .setProgramLogo(new Image().setSourceUri(new ImageUri().setUri(DEFAULT_LOGO)));
+                    .setProgramLogo(new Image().setSourceUri(new ImageUri().setUri(logoURL)));
 
             LoyaltyClass googleResponse = walletobjects.loyaltyclass().
                     insert(loyaltyClass).
                     execute();
+
+            logger.info("Google class added with id", googleResponse.getId());
 
             return googleResponse.getId();
 
