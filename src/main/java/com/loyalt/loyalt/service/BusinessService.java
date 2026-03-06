@@ -43,8 +43,10 @@ public class BusinessService {
         UUID ownerId = SecurityUtils.getCurrentUserId();
         String googleClassId = issuerId + "." + businessId;
         String programName = businessName + " Rewards";
+        String businessLogo = request.getLogoUrl();
 
-        String googleClassIdFromGoogle = googleWalletService.createLoyaltyClass(googleClassId,businessName, programName, DEFAULT_LOGO);
+        String googleClassIdFromGoogle = googleWalletService.createLoyaltyClass(googleClassId,businessName,
+                programName, businessLogo);
 
 
         Business business = new Business();
@@ -54,7 +56,7 @@ public class BusinessService {
         business.setOwnerId(ownerId);
         business.setProgramName(businessName + " Rewards");
         business.setGoogleClassId(googleClassIdFromGoogle);
-        business.setLogoUrl(DEFAULT_LOGO);
+        business.setLogoUrl(businessLogo);
         business.setActive(true);
 
 

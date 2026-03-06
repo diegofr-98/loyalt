@@ -5,6 +5,7 @@ import java.util.UUID;
 public class CreateBusinessRequest {
     String businessName;
     String businessTypeId;
+    String logoUrl;
 
     public String getBusinessName() {
         return businessName;
@@ -14,7 +15,7 @@ public class CreateBusinessRequest {
         return businessTypeId;
     }
 
-
-
-
+    public String getLogoUrl() {
+        return logoUrl;
+    }
 }
