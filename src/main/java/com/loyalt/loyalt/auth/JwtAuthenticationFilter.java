@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -44,19 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             Map<?, ?> userResponse = supabaseAuthService.validateToken(token);
             if (userResponse != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                //TODO verify if userResponse.get("id") can be null
+
                 String userId = (String) userResponse.get("id");
-                /*String email = (String) userResponse.get("email");
-
-                Map<?, ?> userMetadata = (Map<?, ?>) userResponse.get("user_metadata");
-                String role = "USER";
-
-                if (userMetadata != null && userMetadata.get("role") != null) {
-                    role = userMetadata.get("role").toString();
-                }
-
-                Map<String, String> principal = Map.of("userId", userId, "email", email);*/
-
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userId, null, List.of());

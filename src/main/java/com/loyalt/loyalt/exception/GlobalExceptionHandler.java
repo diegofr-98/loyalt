@@ -4,11 +4,8 @@ import com.loyalt.loyalt.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.naming.AuthenticationException;
 import java.time.Instant;
 
 @RestControllerAdvice
@@ -40,4 +37,27 @@ public class GlobalExceptionHandler {
 
 
     }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> conflictException(ConflictException ex, HttpServletRequest request){
+        ErrorResponse error = new ErrorResponse(
+                Instant.now().toString(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> badRequestException(BadRequestException ex, HttpServletRequest request){
+        ErrorResponse error = new ErrorResponse(
+                Instant.now().toString(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI());
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
 }

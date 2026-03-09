@@ -1,4 +1,4 @@
-package com.loyalt.loyalt.integration;
+package com.loyalt.loyalt.integration.googlewallet;
 
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;

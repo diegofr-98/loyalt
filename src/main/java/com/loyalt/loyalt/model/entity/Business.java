@@ -3,9 +3,8 @@ package com.loyalt.loyalt.model.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.annotation.processing.Generated;
 import java.time.OffsetDateTime;
-import java.util.Date;
+
 import java.util.UUID;
 
 @Entity

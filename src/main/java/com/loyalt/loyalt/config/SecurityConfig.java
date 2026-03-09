@@ -1,7 +1,6 @@
 package com.loyalt.loyalt.config;
 
 import com.loyalt.loyalt.auth.JwtAuthenticationFilter;
-import com.loyalt.loyalt.model.enums.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -40,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 // Public endpoints (no authentication required)
-                                .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/api/v1/auth/**", "/api/v1/customer/**").permitAll()
                                 //Business endpoints
                                 .requestMatchers("/api/v1/google-wallet/**", "/api/v1/test/**","/api/v1/business", "/api/v1/promotions/**", "/api/v1/rewards/**")
                                 // All other requests require authentication

@@ -1,9 +1,10 @@
 package com.loyalt.loyalt.controller;
 
-import com.loyalt.loyalt.dto.CreateBusinessRequest;
-import com.loyalt.loyalt.dto.CreateBusinessResponse;
+import com.loyalt.loyalt.dto.business.CreateBusinessRequest;
+import com.loyalt.loyalt.dto.business.CreateBusinessResponse;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.service.BusinessService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ public class BusinessController {
     private final BusinessService businessService;
 
     public BusinessController(BusinessService businessService){
+
         this.businessService = businessService;
     }
 
@@ -26,7 +28,7 @@ public class BusinessController {
     }
 
     @PostMapping()
-    public ResponseEntity<CreateBusinessResponse> create(@RequestBody CreateBusinessRequest request) throws IOException {
+    public ResponseEntity<CreateBusinessResponse> create(@Valid @RequestBody CreateBusinessRequest request) throws IOException {
         CreateBusinessResponse createBusinessResponse = businessService.createBusiness(request);
         return ResponseEntity.ok(createBusinessResponse);
 
