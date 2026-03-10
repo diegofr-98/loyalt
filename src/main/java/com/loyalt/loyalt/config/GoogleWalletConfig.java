@@ -23,6 +23,7 @@ public class GoogleWalletConfig {
          GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                  .createScoped(List.of("https://www.googleapis.com/auth/wallet_object.issuer"));
 
+
          HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
          return new Walletobjects.Builder(

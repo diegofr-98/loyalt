@@ -5,7 +5,7 @@ import com.loyalt.loyalt.dto.business.CreateBusinessRequest;
 import com.loyalt.loyalt.dto.business.CreateBusinessResponse;
 import com.loyalt.loyalt.exception.BadRequestException;
 import com.loyalt.loyalt.exception.ConflictException;
-import com.loyalt.loyalt.integration.googlewallet.GoogleWalletService;
+import com.loyalt.loyalt.integration.googlewallet.GoogleWalletClassService;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.repository.BusinessRepository;
 import com.loyalt.loyalt.repository.BusinessTypeRepository;
@@ -19,14 +19,14 @@ import java.util.*;
 @Service
 public class BusinessService {
     private final BusinessRepository businessRepository;
-    private final GoogleWalletService googleWalletService;
+    private final GoogleWalletClassService googleWalletService;
     private final BusinessTypeRepository businessTypeRepository;
     private String issuerId;
 
     final String DEFAULT_LOGO = "https://rifsoxpgwhcnyklspgsc.supabase.co/storage/v1/object/public/business-logos/generic-logo.png";
     public BusinessService(BusinessRepository businessRepository,
                            @Value("${google.wallet.issuer-id}") String issuerId,
-                           GoogleWalletService googleWalletService,
+                           GoogleWalletClassService googleWalletService,
                            BusinessTypeRepository businessTypeRepository
     ){
         this.businessRepository = businessRepository;

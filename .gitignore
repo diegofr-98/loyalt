@@ -31,6 +31,7 @@ spring.log
 ############################
 .env
 .env.*
+.run
 application-local.yml
 application-prod.yml
 loyalt-487623-99a913e373aa.json
@@ -45,3 +46,4 @@ loyalt-487623-99a913e373aa.json
 # Secrets
 ############################
 /src/main/resources/secrets/
+/.run/

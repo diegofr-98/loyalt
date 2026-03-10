@@ -30,7 +30,7 @@ public class CustomerService {
         customer.setPhoneNumber(request.phoneNumber());
 
         Customer saved = customerRepository.save(customer);
-        return new CreateCustomerResponse(saved.getEmail(), saved.getPhoneNumber());
+        return new CreateCustomerResponse(saved.getUuid(), saved.getEmail(), saved.getPhoneNumber());
 
 
 

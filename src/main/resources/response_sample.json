@@ -1,1 +1,49 @@
-{"access_token":"eyJhbGciOiJFUzI1NiIsImtpZCI6IjU3ZTZkODQyLWVlMDctNDdjOS1iY2NhLWQ5MjdjYTQ4NTY5ZSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3JpZnNveHBnd2hjbnlrbHNwZ3NjLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJmY2ViODBlMC1hMjNhLTQ1MDMtYTgwZi1lMmVkNzA0MzhiMjYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzcyMDQ3NjI3LCJpYXQiOjE3NzIwNDQwMjcsImVtYWlsIjoiZGllZ29mcmFuY29yb3lAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6ImRpZWdvZnJhbmNvcm95QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6ImZjZWI4MGUwLWEyM2EtNDUwMy1hODBmLWUyZWQ3MDQzOGIyNiJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzcyMDQ0MDI3fV0sInNlc3Npb25faWQiOiJkZWVmMGI4NC0xM2E1LTQ1M2MtYTY2Ny03M2M5MWMwMGZiOTkiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.GheSyhW11xehZVeF44nlejT-9wwYbKOit4Jq0iofZtTS6BkXubl1qftC8WBEjGQNpvn5gQfwdrIj121pJlCzJg","token_type":"bearer","expires_in":3600,"expires_at":1772047627,"refresh_token":"tf7jjkn3traa","user":{"id":"fceb80e0-a23a-4503-a80f-e2ed70438b26","aud":"authenticated","role":"authenticated","email":"diegofrancoroy@gmail.com","email_confirmed_at":"2026-02-25T18:27:07.672622571Z","phone":"","last_sign_in_at":"2026-02-25T18:27:07.689899549Z","app_metadata":{"provider":"email","providers":["email"]},"user_metadata":{"email":"diegofrancoroy@gmail.com","email_verified":true,"phone_verified":false,"sub":"fceb80e0-a23a-4503-a80f-e2ed70438b26"},"identities":[{"identity_id":"30e01642-5009-405e-8a18-bde120614448","id":"fceb80e0-a23a-4503-a80f-e2ed70438b26","user_id":"fceb80e0-a23a-4503-a80f-e2ed70438b26","identity_data":{"email":"diegofrancoroy@gmail.com","email_verified":true,"phone_verified":false,"sub":"fceb80e0-a23a-4503-a80f-e2ed70438b26"},"provider":"email","last_sign_in_at":"2026-02-25T18:27:07.655856432Z","created_at":"2026-02-25T18:27:07.655914Z","updated_at":"2026-02-25T18:27:07.655914Z","email":"diegofrancoroy@gmail.com"}],"created_at":"2026-02-25T18:27:07.623743Z","updated_at":"2026-02-25T18:27:07.738629Z","is_anonymous":false}}
+{
+  "access_token": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjU3ZTZkODQyLWVlMDctNDdjOS1iY2NhLWQ5MjdjYTQ4NTY5ZSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3JpZnNveHBnd2hjbnlrbHNwZ3NjLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJmY2ViODBlMC1hMjNhLTQ1MDMtYTgwZi1lMmVkNzA0MzhiMjYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzcyMDQ3NjI3LCJpYXQiOjE3NzIwNDQwMjcsImVtYWlsIjoiZGllZ29mcmFuY29yb3lAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6ImRpZWdvZnJhbmNvcm95QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6ImZjZWI4MGUwLWEyM2EtNDUwMy1hODBmLWUyZWQ3MDQzOGIyNiJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzcyMDQ0MDI3fV0sInNlc3Npb25faWQiOiJkZWVmMGI4NC0xM2E1LTQ1M2MtYTY2Ny03M2M5MWMwMGZiOTkiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.GheSyhW11xehZVeF44nlejT-9wwYbKOit4Jq0iofZtTS6BkXubl1qftC8WBEjGQNpvn5gQfwdrIj121pJlCzJg",
+  "token_type": "bearer",
+  "expires_in": 3600,
+  "expires_at": 1772047627,
+  "refresh_token": "tf7jjkn3traa",
+  "user": {
+    "id": "fceb80e0-a23a-4503-a80f-e2ed70438b26",
+    "aud": "authenticated",
+    "role": "authenticated",
+    "email": "diegofrancoroy@gmail.com",
+    "email_confirmed_at": "2026-02-25T18:27:07.672622571Z",
+    "phone": "",
+    "last_sign_in_at": "2026-02-25T18:27:07.689899549Z",
+    "app_metadata": {
+      "provider": "email",
+      "providers": [
+        "email"
+      ]
+    },
+    "user_metadata": {
+      "email": "diegofrancoroy@gmail.com",
+      "email_verified": true,
+      "phone_verified": false,
+      "sub": "fceb80e0-a23a-4503-a80f-e2ed70438b26"
+    },
+    "identities": [
+      {
+        "identity_id": "30e01642-5009-405e-8a18-bde120614448",
+        "id": "fceb80e0-a23a-4503-a80f-e2ed70438b26",
+        "user_id": "fceb80e0-a23a-4503-a80f-e2ed70438b26",
+        "identity_data": {
+          "email": "diegofrancoroy@gmail.com",
+          "email_verified": true,
+          "phone_verified": false,
+          "sub": "fceb80e0-a23a-4503-a80f-e2ed70438b26"
+        },
+        "provider": "email",
+        "last_sign_in_at": "2026-02-25T18:27:07.655856432Z",
+        "created_at": "2026-02-25T18:27:07.655914Z",
+        "updated_at": "2026-02-25T18:27:07.655914Z",
+        "email": "diegofrancoroy@gmail.com"
+      }
+    ],
+    "created_at": "2026-02-25T18:27:07.623743Z",
+    "updated_at": "2026-02-25T18:27:07.738629Z",
+    "is_anonymous": false
+  }
+}

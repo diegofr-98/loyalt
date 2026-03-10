@@ -17,12 +17,12 @@ import java.io.IOException;
 
 
 @Service
-public class GoogleWalletService {
+public class GoogleWalletClassService {
     private final Walletobjects walletobjects;
     //private String issuerId;
     private static final Logger logger = LoggerFactory.getLogger(PromotionService.class);
 
-    public GoogleWalletService(Walletobjects walletobjects) {
+    public GoogleWalletClassService(Walletobjects walletobjects) {
         this.walletobjects = walletobjects;
         //this.issuerId = issuerId;
     }

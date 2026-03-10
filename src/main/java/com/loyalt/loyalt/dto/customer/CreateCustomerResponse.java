@@ -1,4 +1,6 @@
 package com.loyalt.loyalt.dto.customer;
 
-public record CreateCustomerResponse (String email, String phoneNumber){
+import java.util.UUID;
+
+public record CreateCustomerResponse (UUID customerId, String email, String phoneNumber){
 }
