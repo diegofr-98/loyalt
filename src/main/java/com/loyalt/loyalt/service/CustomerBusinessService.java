@@ -1,5 +1,6 @@
 package com.loyalt.loyalt.service;
 
+import com.loyalt.loyalt.dto.business.BusinessCustomerDTO;
 import com.loyalt.loyalt.dto.customer.CustomerBusinessResponse;
 import com.loyalt.loyalt.integration.googlewallet.WalletJwtService;
 import com.loyalt.loyalt.integration.googlewallet.WalletObjectService;
@@ -11,6 +12,10 @@ import com.loyalt.loyalt.repository.BusinessRepository;
 import com.loyalt.loyalt.repository.CustomerBusinessRepository;
 import com.loyalt.loyalt.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -79,6 +84,11 @@ public class CustomerBusinessService {
                 membership.getUuid(),
                 addToWalletUrl
         );
+    }
+
+    public Page<BusinessCustomerDTO> getBusinessCustomers(UUID businessId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return customerBusinessRepository.findCustomersByBusinessId(businessId, pageable);
     }
 
 
