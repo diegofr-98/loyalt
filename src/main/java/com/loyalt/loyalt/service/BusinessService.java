@@ -101,7 +101,7 @@ public class BusinessService {
 
         Business save = businessRepository.save(business);
 
-        return new CreateBusinessResponse(save.getUuid(),save.getName(),save.getProgramName() );
+        return new CreateBusinessResponse(save.getUuid(),save.getName(),save.getProgramName(), save.getLogoURL() );
 
     }
 }
