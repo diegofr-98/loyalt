@@ -5,86 +5,59 @@ import com.loyalt.loyalt.dto.business.CreateBusinessRequest;
 import com.loyalt.loyalt.dto.business.CreateBusinessResponse;
 import com.loyalt.loyalt.exception.BadRequestException;
 import com.loyalt.loyalt.exception.ConflictException;
-import com.loyalt.loyalt.integration.googlewallet.GoogleWalletClassService;
+import com.loyalt.loyalt.integration.googlewallet.WalletClassService;
+import com.loyalt.loyalt.integration.googlewallet.WalletProperties;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.repository.BusinessRepository;
 import com.loyalt.loyalt.repository.BusinessTypeRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.*;
 
 @Service
 public class BusinessService {
     private final BusinessRepository businessRepository;
-    private final GoogleWalletClassService googleWalletService;
+    private final WalletClassService walletClassService;
     private final BusinessTypeRepository businessTypeRepository;
-    private String issuerId;
+    private final WalletProperties walletProperties;
 
-    final String DEFAULT_LOGO = "https://rifsoxpgwhcnyklspgsc.supabase.co/storage/v1/object/public/business-logos/generic-logo.png";
     public BusinessService(BusinessRepository businessRepository,
-                           @Value("${google.wallet.issuer-id}") String issuerId,
-                           GoogleWalletClassService googleWalletService,
-                           BusinessTypeRepository businessTypeRepository
+                           WalletClassService walletClassService,
+                           BusinessTypeRepository businessTypeRepository,
+                           WalletProperties walletProperties
     ){
         this.businessRepository = businessRepository;
-        this.googleWalletService = googleWalletService;
-        this.issuerId = issuerId;
+        this.walletClassService = walletClassService;
         this.businessTypeRepository = businessTypeRepository;
+        this.walletProperties = walletProperties;
     }
 
 
     public List<Business> getAllBusinesses(){
-        Map<String, String> business = new HashMap<>();
         return this.businessRepository.findAll();
 
     }
 
     @Transactional
-    public CreateBusinessResponse createBusiness(CreateBusinessRequest request) throws IOException {
+    public CreateBusinessResponse createBusiness(CreateBusinessRequest request){
 
-        if (request.businessName() == null || request.businessName().isBlank()) {
-            throw new BadRequestException("Business name is required");
-        }
-
-        if (request.businessName().length() > 100) {
-            throw new BadRequestException("Business name is too long");
-        }
-
-        if(!businessTypeRepository.existsById(UUID.fromString(request.businessTypeId()))){
-            throw new BadRequestException("BusinessTypeId is invalid or does not exists");
-
-        }
-
-        if (request.logoUrl() == null || request.logoUrl().isBlank()) {
-            throw new BadRequestException("Logo URL is required");
-        }
-
-        if (!request.logoUrl().startsWith("http")) {
-            throw new BadRequestException("Logo URL must be a valid URL");
-        }
-
+        validateRequest(request);
 
         UUID businessTypeId = UUID.fromString(request.businessTypeId());
         UUID businessId = UUID.randomUUID();
         String businessName = request.businessName();
         UUID ownerId = SecurityUtils.getCurrentUserId();
 
-        boolean exists = businessRepository.existsByNameAndOwnerId(businessName, ownerId);
-
-        if (exists) {
+        if (businessRepository.existsByNameAndOwnerId(businessName, ownerId)) {
             throw new ConflictException("Business already exists");
         }
 
-        String googleClassId = issuerId + "." + businessId;
+        String googleClassId = walletProperties.getIssuerId() + "." + businessId;
         String programName = businessName + " Rewards";
         String businessLogo = request.logoUrl();
 
-
-
-        String googleClassIdFromGoogle = googleWalletService.createLoyaltyClass(googleClassId,businessName,
+        String createdClassId = walletClassService.createLoyaltyClass(googleClassId,businessName,
                 programName, businessLogo);
 
 
@@ -94,14 +67,52 @@ public class BusinessService {
         business.setBusinessTypeId(businessTypeId);
         business.setOwnerId(ownerId);
         business.setProgramName(programName);
-        business.setGoogleClassId(googleClassIdFromGoogle);
+        business.setGoogleClassId(createdClassId);
         business.setLogoUrl(businessLogo);
         business.setActive(true);
 
 
-        Business save = businessRepository.save(business);
+        Business saved = businessRepository.save(business);
 
-        return new CreateBusinessResponse(save.getUuid(),save.getName(),save.getProgramName(), save.getLogoURL() );
+        return new CreateBusinessResponse(saved.getUuid(),
+                saved.getName(),
+                saved.getProgramName(),
+                saved.getLogoURL() );
 
+    }
+
+    private void validateRequest(CreateBusinessRequest request) {
+
+        if (request.businessName() == null || request.businessName().isBlank()) {
+            throw new BadRequestException("Business name is required");
+        }
+
+        if (request.businessName().length() > 100) {
+            throw new BadRequestException("Business name is too long");
+        }
+
+        if (request.businessTypeId() == null) {
+            throw new BadRequestException("BusinessTypeId is required");
+        }
+
+        UUID businessTypeId;
+
+        try {
+            businessTypeId = UUID.fromString(request.businessTypeId());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("BusinessTypeId is invalid");
+        }
+
+        if (!businessTypeRepository.existsById(businessTypeId)) {
+            throw new BadRequestException("BusinessTypeId does not exist");
+        }
+
+        if (request.logoUrl() == null || request.logoUrl().isBlank()) {
+            throw new BadRequestException("Logo URL is required");
+        }
+
+        if (!request.logoUrl().startsWith("http")) {
+            throw new BadRequestException("Logo URL must be a valid URL");
+        }
     }
 }

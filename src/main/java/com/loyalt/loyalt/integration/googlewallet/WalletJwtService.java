@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GoogleWalletJwtService {
+public class WalletJwtService {
 
     private final GoogleCredentials credentials;
 
-    public GoogleWalletJwtService() throws IOException {
+    public WalletJwtService() throws IOException {
         this.credentials = GoogleCredentials.getApplicationDefault();
     }
 

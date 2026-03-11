@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix="google.wallet")
-public class GoogleWalletProperties {
+public class WalletProperties {
     public String issuerId;
 
     public String getIssuerId(){

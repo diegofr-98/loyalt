@@ -1,20 +1,14 @@
 package com.loyalt.loyalt.integration.googlewallet;
 
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.google.api.services.walletobjects.Walletobjects;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Component
-public class GoogleWalletClient {
+public class WalletClient {
     private final Walletobjects walletobjects;
 
-    public GoogleWalletClient(Walletobjects walletobjects){
+    public WalletClient(Walletobjects walletobjects){
         this.walletobjects = walletobjects;
     }
 
