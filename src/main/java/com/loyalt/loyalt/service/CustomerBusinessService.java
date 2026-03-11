@@ -1,8 +1,8 @@
 package com.loyalt.loyalt.service;
 
 import com.loyalt.loyalt.dto.customer.CustomerBusinessResponse;
-import com.loyalt.loyalt.integration.googlewallet.GoogleWalletJwtService;
-import com.loyalt.loyalt.integration.googlewallet.GoogleWalletObjectService;
+import com.loyalt.loyalt.integration.googlewallet.WalletJwtService;
+import com.loyalt.loyalt.integration.googlewallet.WalletObjectService;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.model.entity.Customer;
 import com.loyalt.loyalt.model.entity.CustomerBusiness;
@@ -23,17 +23,17 @@ public class CustomerBusinessService {
     private final BusinessRepository businessRepository;
     private final CustomerBusinessRepository customerBusinessRepository;
 
-    private final GoogleWalletObjectService googleWalletObjectService;
-    private final GoogleWalletJwtService googleWalletJwtService;
+    private final WalletObjectService walletObjectService;
+    private final WalletJwtService walletJwtService;
 
     public CustomerBusinessService(CustomerRepository customerRepository, BusinessRepository businessRepository,
-                                   CustomerBusinessRepository customerBusinessRepository, GoogleWalletObjectService googleWalletObjectService,
-                                   GoogleWalletJwtService googleWalletJwtService){
+                                   CustomerBusinessRepository customerBusinessRepository, WalletObjectService walletObjectService,
+                                   WalletJwtService walletJwtService){
         this.customerRepository = customerRepository;
         this.businessRepository = businessRepository;
         this.customerBusinessRepository = customerBusinessRepository;
-        this.googleWalletObjectService = googleWalletObjectService;
-        this.googleWalletJwtService = googleWalletJwtService;
+        this.walletObjectService = walletObjectService;
+        this.walletJwtService = walletJwtService;
     }
 
     @Transactional
@@ -63,7 +63,7 @@ public class CustomerBusinessService {
         customerBusinessRepository.save(membership);
 
         String loyaltyObjectId =
-                googleWalletObjectService.createGoogleWalletObject(
+                walletObjectService.createGoogleWalletObject(
                         membership.getUuid(),
                         business.getGoogleClassId()
                 );
@@ -73,7 +73,7 @@ public class CustomerBusinessService {
         customerBusinessRepository.save(membership);
 
         String addToWalletUrl =
-                googleWalletJwtService.createSaveLink(loyaltyObjectId);
+                walletJwtService.createSaveLink(loyaltyObjectId);
 
         return new CustomerBusinessResponse(
                 membership.getUuid(),

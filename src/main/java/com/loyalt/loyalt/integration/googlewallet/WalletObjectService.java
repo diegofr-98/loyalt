@@ -1,23 +1,24 @@
 package com.loyalt.loyalt.integration.googlewallet;
 
-import com.google.api.services.walletobjects.model.Barcode;
-import com.google.api.services.walletobjects.model.LoyaltyObject;
-import com.google.api.services.walletobjects.model.LoyaltyPoints;
-import com.google.api.services.walletobjects.model.LoyaltyPointsBalance;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.services.walletobjects.model.*;
+import com.loyalt.loyalt.dto.wallet.WalletObjectResponse;
+import com.loyalt.loyalt.exception.wallet.GoogleWalletException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
-public class GoogleWalletObjectService {
+public class WalletObjectService {
 
-    private final GoogleWalletClient googleWalletClient;
-    private final GoogleWalletProperties googleWalletProperties;
+    private final WalletClient googleWalletClient;
+    private final WalletProperties walletProperties;
 
-    public GoogleWalletObjectService(GoogleWalletClient googleWalletClient, GoogleWalletProperties googleWalletProperties){
+    public WalletObjectService(WalletClient googleWalletClient, WalletProperties walletProperties){
         this.googleWalletClient = googleWalletClient;
-        this.googleWalletProperties = googleWalletProperties;
+        this.walletProperties = walletProperties;
     }
 
     public String createGoogleWalletObject(UUID membershipId, String classId) throws IOException {
@@ -29,7 +30,7 @@ public class GoogleWalletObjectService {
             throw new IllegalArgumentException("classId cannot be null");
         }
 
-        String objectId = googleWalletProperties.getIssuerId() + "." + membershipId;
+        String objectId = walletProperties.getIssuerId() + "." + membershipId;
 
         LoyaltyObject loyaltyObject = new LoyaltyObject();
         loyaltyObject.setId(objectId);
@@ -83,5 +84,38 @@ public class GoogleWalletObjectService {
                 .patch(objectId, object)
                 .execute();
     }
+
+    public List<WalletObjectResponse> getObjectsByClass(String classId) throws IOException {
+        LoyaltyObjectListResponse response = null;
+        try{
+        response = googleWalletClient
+                .getLoyaltyObject()
+                .list()
+                .setClassId(classId)
+                .execute();
+
+        if (response.getResources() == null) {
+            return List.of();
+        }
+
+
+        }catch(GoogleJsonResponseException e){
+            if(e.getStatusCode() == 404){
+                throw new GoogleWalletException("Class not found: " + classId);
+            }
+
+        }
+
+
+        return response.getResources()
+                .stream()
+                .map(obj -> new WalletObjectResponse(
+                        obj.getId(),
+                        obj.getAccountId(),
+                        obj.getAccountName(),
+                        obj.getLoyaltyPoints() != null ? obj.getLoyaltyPoints().getBalance().getInt() : 0))
+                .toList();
+    }
+
 
 }
