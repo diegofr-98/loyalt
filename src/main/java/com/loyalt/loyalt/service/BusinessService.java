@@ -42,6 +42,10 @@ public class BusinessService {
 
     }
 
+    public Business getByOwnerId(UUID ownerId) {
+        return this.businessRepository.findByOwnerId(ownerId);
+    }
+
     @Transactional
     public CreateBusinessResponse createBusiness(CreateBusinessRequest request) throws IOException {
 

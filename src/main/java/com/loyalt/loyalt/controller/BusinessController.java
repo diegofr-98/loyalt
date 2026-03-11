@@ -2,6 +2,7 @@ package com.loyalt.loyalt.controller;
 
 import com.loyalt.loyalt.dto.business.CreateBusinessRequest;
 import com.loyalt.loyalt.dto.business.CreateBusinessResponse;
+import com.loyalt.loyalt.dto.promotion.PromotionResponseDTO;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.service.BusinessService;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/business")
@@ -25,6 +27,11 @@ public class BusinessController {
     public ResponseEntity<List<Business>> getAllBusiness(){
         List<Business> businesses = this.businessService.getAllBusinesses();
         return ResponseEntity.ok(businesses);
+    }
+
+    @GetMapping("/{ownerId}")
+    public Business getByOwnerId(@Valid @PathVariable UUID ownerId) {
+        return businessService.getByOwnerId(ownerId);
     }
 
     @PostMapping()
