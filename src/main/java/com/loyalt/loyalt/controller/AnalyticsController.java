@@ -18,7 +18,7 @@ public class AnalyticsController {
         this.service = service;
     }
 
-    @GetMapping("/customer-business/{businessId}")
+    @GetMapping("/{businessId}/customers")
     public CustomerBusinessAnalyticsDTO getCustomerBusinessAnalytics(@Valid @PathVariable UUID businessId) {
         return service.getCustomerBusinessAnalytics(businessId);
     }
