@@ -5,6 +5,7 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.walletobjects.model.Image;
 import com.google.api.services.walletobjects.model.ImageUri;
 import com.google.api.services.walletobjects.model.LoyaltyClass;
+import com.loyalt.loyalt.exception.BadRequestException;
 import com.loyalt.loyalt.exception.wallet.*;
 import com.loyalt.loyalt.exception.LoyaltyClassAlreadyExistsException;
 import org.slf4j.Logger;
@@ -104,6 +105,36 @@ public class WalletClassService {
         } catch (IOException e) {
             throw new GoogleWalletCommunicationException(
                     "Error de comunicación con Google Wallet",
+                    e
+            );
+        }
+    }
+
+    public void deactivateClass(String classId) {
+
+        if (classId == null || classId.isBlank()) {
+            throw new BadRequestException("classId cannot be null");
+        }
+
+        LoyaltyClass loyaltyClass = new LoyaltyClass();
+        loyaltyClass.setReviewStatus("DRAFT");
+
+        try {
+
+            walletClient
+                    .getLoyaltyClass()
+                    .patch(classId, loyaltyClass)
+                    .execute();
+            logger.info("LoyaltyClass set to DRAFT: {}", classId);
+
+        } catch (GoogleJsonResponseException e) {
+
+            throw exceptionTranslator.translate(e);
+
+        } catch (IOException e) {
+
+            throw new GoogleWalletCommunicationException(
+                    "Error communicating with Google Wallet",
                     e
             );
         }
