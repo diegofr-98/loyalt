@@ -39,10 +39,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 // Public endpoints (no authentication required)
-                                .requestMatchers("/api/v1/auth/**", "/api/v1/customer/**").permitAll()
+                                .requestMatchers("/api/v1/auth/**",
+                                        "/api/v1/customer",
+                                        "/api/v1/customer/customer-business").permitAll()
                                 //Business endpoints
 
-                                .requestMatchers("/api/v1/wallet/**", "/api/v1/test/**","/api/v1/business/**", "/api/v1/promotions/**", "/api/v1/rewards/**", "/api/v1/analytics/**")
+                                .requestMatchers("/api/v1/wallet/**",
+                                        "/api/v1/test/**",
+                                        "/api/v1/business/**",
+                                        "/api/v1/promotions/**",
+                                        "/api/v1/rewards/**",
+                                        "/api/v1/analytics/**",
+                                        "/api/v1/customer/transaction",
+                                        "/api/v1/customer/redemption")
 
                                 // All other requests require authentication
                                 .authenticated())

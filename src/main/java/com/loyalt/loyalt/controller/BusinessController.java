@@ -5,7 +5,6 @@ import com.loyalt.loyalt.dto.business.CreateBusinessRequest;
 import com.loyalt.loyalt.dto.business.CreateBusinessResponse;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.service.BusinessService;
-import com.loyalt.loyalt.service.CustomerBusinessService;
 import com.loyalt.loyalt.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -20,10 +19,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/business")
 public class BusinessController {
     private final BusinessService businessService;
-    private final CustomerBusinessService customerBusinessService;
 
-    public BusinessController(BusinessService businessService, CustomerBusinessService customerBusinessService){
-        this.customerBusinessService = customerBusinessService;
+    private final CustomerService customerService;
+
+    public BusinessController(BusinessService businessService, CustomerService customerService){
+        this.customerService = customerService;
         this.businessService = businessService;
     }
 
@@ -45,7 +45,7 @@ public class BusinessController {
             @RequestParam(defaultValue = "20") int size
     ) {
 
-        return customerBusinessService.getBusinessCustomers(businessId, page, size);
+        return customerService.getBusinessCustomers(businessId, page, size);
     }
 
     @PostMapping()
