@@ -41,7 +41,8 @@ public class SecurityConfig {
                                 // Public endpoints (no authentication required)
                                 .requestMatchers("/api/v1/auth/**",
                                         "/api/v1/customer",
-                                        "/api/v1/customer/customer-business").permitAll()
+                                        "/api/v1/customer/customer-business",
+                                        "/api/v1/webhooks/wallet/**").permitAll()
                                 //Business endpoints
 
                                 .requestMatchers("/api/v1/wallet/**",

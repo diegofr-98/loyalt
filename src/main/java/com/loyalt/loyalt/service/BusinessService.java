@@ -6,7 +6,7 @@ import com.loyalt.loyalt.dto.business.CreateBusinessResponse;
 import com.loyalt.loyalt.exception.BadRequestException;
 import com.loyalt.loyalt.exception.ConflictException;
 import com.loyalt.loyalt.integration.googlewallet.WalletClassService;
-import com.loyalt.loyalt.integration.googlewallet.WalletProperties;
+import com.loyalt.loyalt.config.GoogleWalletProperties;
 import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.repository.BusinessRepository;
 import com.loyalt.loyalt.repository.BusinessTypeRepository;
@@ -20,17 +20,17 @@ public class BusinessService {
     private final BusinessRepository businessRepository;
     private final WalletClassService walletClassService;
     private final BusinessTypeRepository businessTypeRepository;
-    private final WalletProperties walletProperties;
+    private final GoogleWalletProperties googleWalletProperties;
 
     public BusinessService(BusinessRepository businessRepository,
                            WalletClassService walletClassService,
                            BusinessTypeRepository businessTypeRepository,
-                           WalletProperties walletProperties
+                           GoogleWalletProperties googleWalletProperties
     ){
         this.businessRepository = businessRepository;
         this.walletClassService = walletClassService;
         this.businessTypeRepository = businessTypeRepository;
-        this.walletProperties = walletProperties;
+        this.googleWalletProperties = googleWalletProperties;
     }
 
 
@@ -57,7 +57,7 @@ public class BusinessService {
             throw new ConflictException("Business already exists");
         }
 
-        String googleClassId = walletProperties.getIssuerId() + "." + businessId;
+        String googleClassId = googleWalletProperties.getIssuerId() + "." + businessId;
         String programName = businessName + " Rewards";
         String businessLogo = request.logoUrl();
 

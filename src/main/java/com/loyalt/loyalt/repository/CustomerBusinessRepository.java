@@ -77,4 +77,6 @@ public interface CustomerBusinessRepository extends JpaRepository<CustomerBusine
             @Param("businessId") UUID businessId,
             Pageable pageable
     );
+
+    Optional<CustomerBusiness> findByGoogleObjectId(String objectId);
 }

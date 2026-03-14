@@ -1,8 +1,10 @@
 package com.loyalt.loyalt.controller;
 
+import com.loyalt.loyalt.dto.wallet.SyncPointsRequest;
 import com.loyalt.loyalt.dto.wallet.WalletObjectResponse;
 import com.loyalt.loyalt.integration.googlewallet.WalletClassService;
 import com.loyalt.loyalt.integration.googlewallet.WalletObjectService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class WalletController {
 
     private final WalletObjectService walletObjectService;
+
     private final WalletClassService walletClassService;
     public WalletController(WalletObjectService walletObjectService, WalletClassService walletClassService){
         this.walletObjectService = walletObjectService;
@@ -29,11 +32,13 @@ public class WalletController {
     }
 
     @PatchMapping("/objects/{objectId}/deactivate")
-    public ResponseEntity<Void> deactivateClass(@PathVariable String objectId) {
+    public ResponseEntity<Void> deactivateClass(@Valid @PathVariable String objectId) {
 
         walletObjectService.deactivateObjectsByClass(objectId);
         return ResponseEntity.noContent().build();
     }
+
+
 
 
 

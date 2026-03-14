@@ -34,4 +34,10 @@ supabase:
 google:
   wallet:
     issuer-id: ${GOOGLE_WALLET_ISSUER_ID}
+    qr-base-url: ${QR_BASE_URL}
+
+webhook:
+  secret: ${WEBHOOK_SECRET}
+
+
 
