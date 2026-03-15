@@ -57,6 +57,7 @@ public interface CustomerBusinessRepository extends JpaRepository<CustomerBusine
     @Query(value = """
         SELECT
             cb.uuid as id,
+            cb.customer_id as customerId,
             cb.google_object_id as googleObjectId,
             c.email as email,
             c.phone_number as phone,
