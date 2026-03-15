@@ -32,10 +32,6 @@ spring.log
 .env
 .env.*
 .run
-application-local.yml
-application-prod.yml
-loyalt-487623-99a913e373aa.json
-
 ############################
 # Maven Wrapper
 ############################
