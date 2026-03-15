@@ -15,11 +15,6 @@ target/
 out/
 
 ############################
-# VS Code (por si acaso)
-############################
-.vscode/
-
-############################
 # OS
 ############################
 .DS_Store
@@ -36,16 +31,15 @@ spring.log
 ############################
 .env
 .env.*
-application-local.yml
-application-prod.yml
-
+.run
 ############################
 # Maven Wrapper
 ############################
 .mvn/wrapper/maven-wrapper.jar
 
+
 ############################
-# Node (por si luego agregas frontend)
+# Secrets
 ############################
-node_modules/
-dist/
+/src/main/resources/secrets/
+/.run/
