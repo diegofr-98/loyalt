@@ -90,7 +90,7 @@ public class CustomerService {
 
         String loyaltyObjectId =
                 walletObjectService.createGoogleWalletObject(
-                        membership.getUuid(),
+                        membership.getCustomer().getUuid(),
                         business.getGoogleClassId()
                 );
 

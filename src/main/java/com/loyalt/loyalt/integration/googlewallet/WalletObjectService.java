@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,9 +38,9 @@ public class WalletObjectService {
         this.customerBusinessRepository = customerBusinessRepository;
     }
 
-    public String createGoogleWalletObject(UUID membershipId, String classId) {
+    public String createGoogleWalletObject(UUID customerId, String classId) {
 
-        if (membershipId == null) {
+        if (customerId == null) {
             throw new BadRequestException("membershipId cannot be null");
         }
 
@@ -47,14 +48,14 @@ public class WalletObjectService {
             throw new BadRequestException("classId cannot be null");
         }
 
-        String objectId = googleWalletProperties.getIssuerId() + "." + membershipId;
+        String objectId = googleWalletProperties.getIssuerId() + "." + customerId;
 
         LoyaltyObject loyaltyObject = new LoyaltyObject()
                 .setId(objectId)
                 .setClassId(classId)
                 .setState("ACTIVE")
                 .setLoyaltyPoints(buildInitialPoints())
-                .setBarcode(buildBarcode(membershipId));
+                .setBarcode(buildBarcode(customerId));
 
         try {
 
@@ -86,9 +87,10 @@ public class WalletObjectService {
                 .orElseThrow(() ->
                         new NotFoundException("Customer business not found for objectId: " + objectId));
 
-        if (cb.getPointsBalance() == pointsBalance) {
+        /*if (cb.getPointsBalance() == pointsBalance) {
+            logger.info("Points registered are up to date");
             return;
-        }
+        }*/
 
         updatePoints(objectId, pointsBalance);
     }
@@ -208,7 +210,15 @@ public class WalletObjectService {
     }
 
     private String buildQrUrl(UUID customerBusinessId) {
-        return googleWalletProperties.getQrBaseUrl();
+
+        String qrBaseUrl = googleWalletProperties.getQrBaseUrl();
+        String qrBaseUrlPath = googleWalletProperties.getQrBaseUrlPath();
+        String qrBaseUrlQueryParam = googleWalletProperties.getQrBaseUrlQueryParam();
+        return UriComponentsBuilder.
+                fromHttpUrl(qrBaseUrl)
+                .path(qrBaseUrlPath)
+                .queryParam(qrBaseUrlQueryParam, customerBusinessId)
+                .toUriString();
     }
 
     private WalletObjectResponse mapToResponse(LoyaltyObject obj) {

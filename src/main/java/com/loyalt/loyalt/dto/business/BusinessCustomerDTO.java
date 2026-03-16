@@ -6,6 +6,8 @@ public interface BusinessCustomerDTO {
 
     String getId();
 
+    String getCustomerId();
+
     String getGoogleObjectId();
 
     String getEmail();

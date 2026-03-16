@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/v1/webhooks/wallet")
 public class WalletWebhookController {
@@ -24,17 +27,20 @@ public class WalletWebhookController {
     }
 
     @PostMapping("/sync-points")
-    public ResponseEntity<Void> syncPoints(@RequestHeader("X-WEBHOOK-SECRET") String secret,
-            @Valid @RequestBody SyncPointsRequest request) {
+    public ResponseEntity<Void> syncPoints(
+            @RequestHeader(value = "X-WEBHOOK-SECRET", required = false) String secret,
+            @RequestBody Map<String, Object> payload) {
 
-        if (!webhookSecret.equals(secret)) {
+
+        logger.info("sync-points controller");
+        if (!Objects.equals(webhookSecret, secret)) {
             throw new UnauthorizedException("Invalid webhook secret");
         }
 
-        walletObjectService.syncPointsFromWebhook(
-                request.objectId(),
-                request.pointsBalance()
-        );
+        String objectId = (String) payload.get("objectId");
+        Integer points = (Integer) payload.get("pointsBalance");
+
+        walletObjectService.syncPointsFromWebhook(objectId, points);
 
         return ResponseEntity.ok().build();
     }

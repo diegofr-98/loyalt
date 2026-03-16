@@ -30,6 +30,8 @@ google:
   wallet:
     issuer-id: ${GOOGLE_WALLET_ISSUER_ID}
     qr-base-url: ${QR_BASE_URL}
+    qr-base-url-path: ${QR_BASE_URL_PATH}
+    qr-base-url-query-param: ${QR_BASE_URL_QUERY_PARAM}
 
 webhook:
   secret: ${WEBHOOK_SECRET}

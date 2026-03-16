@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 public class GoogleWalletProperties {
     private String issuerId;
     private String qrBaseUrl;
+    private String qrBaseUrlPath;
+    private String qrBaseUrlQueryParam;
 
     public String getIssuerId(){
         return issuerId;
@@ -23,5 +25,21 @@ public class GoogleWalletProperties {
 
     public void setQrBaseUrl(String qrBaseUrl) {
         this.qrBaseUrl = qrBaseUrl;
+    }
+
+    public String getQrBaseUrlPath() {
+        return qrBaseUrlPath;
+    }
+
+    public void setQrBaseUrlPath(String qrBaseUrlPath) {
+        this.qrBaseUrlPath = qrBaseUrlPath;
+    }
+
+    public String getQrBaseUrlQueryParam() {
+        return qrBaseUrlQueryParam;
+    }
+
+    public void setQrBaseUrlQueryParam(String qrBaseUrlQueryParam) {
+        this.qrBaseUrlQueryParam = qrBaseUrlQueryParam;
     }
 }
