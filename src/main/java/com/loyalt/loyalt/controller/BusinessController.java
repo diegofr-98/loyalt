@@ -7,6 +7,8 @@ import com.loyalt.loyalt.model.entity.Business;
 import com.loyalt.loyalt.service.BusinessService;
 import com.loyalt.loyalt.service.CustomerService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class BusinessController {
     private final BusinessService businessService;
 
     private final CustomerService customerService;
+    private static final Logger logger = LoggerFactory.getLogger(BusinessController.class);
 
     public BusinessController(BusinessService businessService, CustomerService customerService){
         this.customerService = customerService;
@@ -35,6 +38,7 @@ public class BusinessController {
 
     @GetMapping("/{ownerId}")
     public Business getByOwnerId(@Valid @PathVariable UUID ownerId) {
+        logger.info("Getting Owner");
         return businessService.getByOwnerId(ownerId);
     }
 
